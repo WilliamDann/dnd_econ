@@ -1,32 +1,56 @@
 const crypto = require('crypto');
 
-class Actor {
-    constructor(id, {name, balance}) {
-        this.id      = id;
-        this.name    = name; 
-        this.balance = balance;
+module.exports = data => { return {
+    insertActor: ({actor}) => {
+        const id = crypto.randomBytes(20).toString('hex');
+        actor.id = id;
+
+        data.actors[id] = actor;
+
+        return actor;
+    },
+
+    getActor: ({id}) => {
+        return data.actors[id];
+    },
+
+    giveItem: ({actor_id, item}) => {
+        const actor = data.actors[actor_id];
+        if (item.stack < 0)
+            throw new Error(`item.stack was less than 0 (${item.stack}). Please use takeItem to remove items.`)
+        if (!actor)
+            throw new Error(`Actor ${actor_id} does not exist.`);
+
+        for (let inv_item of actor.inventory)
+            if (inv_item.name == item.name)
+            {
+                inv_item.stack += item.stack;
+                return actor.inventory;
+            }
+
+        actor.inventory.push(item);
+        return actor.inventory;
+    },
+
+    takeItem: ({actor_id, item}) => {
+        const actor = data.actors[actor_id];
+        if (item.stack < 0)
+            throw new Error(`item.stack was less than 0 (${item.stack}). Please use giveItem to add items.`)
+        if (!actor)
+            throw new Error(`Actor ${actor_id} does not exist.`);
+
+        for (let i = 0; i < actor.inventory.length; i++)
+            if (actor.inventory[i].name == item.name)
+                if (actor.inventory[i].stack - item.stack >= 0)
+                {
+                    actor.inventory[i].stack -= item.stack;
+    
+                    if (actor.inventory[i].stack == 0)
+                        actor.inventory.splice(i, 1);
+                        
+                    return item;
+                }
+
+        throw new Error("The actor does not have enough of this item to give");
     }
-};
-
-class Actors {
-    constructor() {
-        this.data = {};
-    }
-
-    create({input}) {
-        const id = crypto.randomBytes(10).toString('hex');
-        input.id = id;
-
-        this.data[id] = input;
-
-        return new Actor(id, input);
-    }
-
-    get({id}) {
-        if (!this.data[id])
-            throw new Error("Actor not found");
-
-        return new Actor(id, this.data[id]);
-    }
-}
-module.exports = Actors;
+}};

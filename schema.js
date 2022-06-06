@@ -2,60 +2,70 @@ const { buildSchema } = require('graphql');
 
 module.exports = buildSchema(`
 type Actor {
-    id      : ID
-    name    : String
-    balance : Float
-}
-
-input ActorInput {
-    name    : String
-    balance : Float
+    id: ID
+    name      : String!
+    inventory : [Item]!
 }
 
 type Item {
-    id    : ID
     name  : String
     desc  : String
+    stack : Int
+}
+
+
+type Market {
+    id       : ID
+    name     : String!
+}
+
+type Listing {
+    id        : ID
+
+    give      : Item
+    take      : Item
+
+    lister_id : ID
+    market_id : ID
+}
+
+input ActorInput {
+    name: String!
+    inventory: [ItemInput]!
 }
 
 input ItemInput {
     name  : String
     desc  : String
+    stack : Int
 }
 
-type Listing {
-    id     : ID
-
-    item   : Item
-    count  : Int
-    
-    seller : Actor
+input MarketInput {
+    name: String!
 }
 
 input ListingInput {
-    item   : ID!
-    count  : Int
-    
-    seller : ID!
-}
-
-type Query {
-    getActor(id: ID!) : Actor
-    getItem(id: ID!)  : Item
-
-    getListing(id               : ID!) : Listing
-    getListingsByItem(item_id   : ID!) : [Listing]
-    getListingsByActor(actor_id : ID!) : [Listing]
+    give      : ItemInput
+    take      : ItemInput
+    lister_id : ID
+    market_id : ID
 }
 
 type Mutation {
-    createActor(input: ActorInput)          : Actor
-    updateActor(id: ID!, input: ActorInput) : Actor
+    insertActor(actor: ActorInput)    : Actor
+    insertMarket(market: MarketInput) : Market
 
-    createItem(input: ItemInput)         : Item
-    updateItem(id: ID!, input:ItemInput) : Item
+    giveItem(actor_id: ID, item: ItemInput): [Item]
+    takeitem(actor_id: ID, item: ItemInput): Item
 
-    createListing(input: ListingInput)          : Listing
-    updateListing(id: ID!, input: ListingInput) : Listing
+    insertListing(listing: ListingInput)      : Listing
+    removeListing(id: ID)                     : Listing
+    completeListing(listing_id: ID, completer_id: ID) : Listing
+}
+
+type Query {
+    getActor(id: ID)   : Actor
+    getMarket(id: ID)  : Market
+    getListing(id: ID) : Listing
 }
 `);

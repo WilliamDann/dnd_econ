@@ -1,0 +1,22 @@
+{
+  "name": "dnd_econ",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WilliamDann/dnd_econ.git"
+  },
+  "author": "William Dann",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WilliamDann/dnd_econ/issues"
+  },
+  "homepage": "https://github.com/WilliamDann/dnd_econ#readme"
+}
