@@ -12,6 +12,8 @@ p {
 
 <body>
     <h1>View Market</h1>
+    <a href="index.html">Main Page</a>
+    <a href="player_view/">Player View</a>
 
     <script>
         const id = document.cookie.split('=')[1];
@@ -37,6 +39,8 @@ p {
 
         function showListing(listing) {
             const container = document.createElement('div');
+            if (!listing) 
+                return container;
 
             const text = document.createElement('p');
             text.innerHTML = `<i>${listing.give.name}</i> x${listing.give.stack} for <i>${listing.take.name}</i> x ${listing.take.stack}`

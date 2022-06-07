@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <script src="js/formBuilder.js"></script>
+    <script src="../js/formBuilder.js"></script>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
 
             sendQuery(query).then(resp => {
                 document.cookie = `id=${resp.getActor.id}`
-                window.location.href = "/actor";
+                window.location.href = "index.html";
             })
         })
 
