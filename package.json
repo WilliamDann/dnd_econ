@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "nodemon . --signal sigint",
     "test": "mocha"
   },
   "repository": {
@@ -19,6 +20,12 @@
     "url": "https://github.com/WilliamDann/dnd_econ/issues"
   },
   "homepage": "https://github.com/WilliamDann/dnd_econ#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
   "dependencies": {
+    "express": "^4.18.1",
+    "graphql": "^15.8.0",
+    "express-graphql": "^0.12.0"
   }
 }

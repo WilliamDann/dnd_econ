@@ -13,7 +13,6 @@ type Item {
     stack : Int
 }
 
-
 type Market {
     id       : ID
     name     : String!
@@ -52,6 +51,11 @@ input ListingInput {
     market_id : ID
 }
 
+input ItemTemplateInput {
+    name: String
+    desc: String
+}
+
 type Mutation {
     insertActor(actor: ActorInput)    : Actor
     insertMarket(market: MarketInput) : Market
@@ -62,6 +66,8 @@ type Mutation {
     insertListing(listing: ListingInput)      : Listing
     removeListing(id: ID)                     : Listing
     completeListing(listing_id: ID, completer_id: ID) : Listing
+
+    insertItemTemplate(item: ItemTemplateInput) : Item
 }
 
 type Query {
@@ -71,5 +77,8 @@ type Query {
     
     getMarkets: [Market]
     getListings: [Listing]
+
+    getItemTemplate(name: String) : Item
+    getItemTemplates: [Item]
 }
 `);
