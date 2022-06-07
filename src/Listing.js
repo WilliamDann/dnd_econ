@@ -26,6 +26,10 @@ module.exports = data => { return {
         return data.listings[id];
     },
 
+    getListings: () => {
+        return Object.values(data.listings);
+    },
+
     removeListing: ({listing_id}) => {
         const listing = data.listings[listing_id];
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<style>
+p {
+    display: inline;
+}
+</style>
+
+<head>
+    <script src="../js/formBuilder.js"></script>
+</head>
+
+<body>
+    <h1>View Market</h1>
+
+    <script>
+        const id = document.cookie.split('=')[1];
+        const query = `{
+            getListings{
+                id,
+                give { name, desc, stack}
+                take { name, desc, stack}
+                lister_id,
+                market_id
+            }
+        }`
+
+        function makePurchare(listing) {
+            const query = `
+            mutation {
+                completeListing(listing_id:"${listing.id}", completer_id:"${id}"){id}
+            }
+            `
+            if (confirm(`Purchase ${listing.give.name} x${listing.give.stack}`))
+            sendQuery(query, () => console.log)
+        }
+
+        function showListing(listing) {
+            const container = document.createElement('div');
+
+            const text = document.createElement('p');
+            text.innerHTML = `<i>${listing.give.name}</i> x${listing.give.stack} for <i>${listing.take.name}</i> x ${listing.take.stack}`
+            container.appendChild(text);
+
+            const purchaseButton = document.createElement('button');
+            purchaseButton.data = listing;
+            purchaseButton.onclick = (e) => makePurchare(e.srcElement.data);
+            purchaseButton.innerHTML = "Purchase";
+            container.appendChild(purchaseButton)
+
+            return container;
+        }
+
+        sendQuery(query).then(resp => {
+            for (let listing of resp.getListings)
+                document.body.appendChild(showListing(listing))
+        });
+    </script>
+</body>

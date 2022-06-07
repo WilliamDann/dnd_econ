@@ -70,5 +70,6 @@ type Query {
     getListing(id: ID) : Listing
     
     getMarkets: [Market]
+    getListings: [Listing]
 }
 `);
