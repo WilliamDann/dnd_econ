@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="../js/formBuilder.js"></script>
+</head>
+
+<style>
+    p {
+        display: inline;
+    }
+</style>
+
+<body>
+    <h1 id="title">Actor Page</h1>
+    <a href="../index.html">Home</a>
+    <br><br>
+
+    <script>
+        function createItemElement(item) {
+            const container = document.createElement('div');
+
+            const text = document.createElement('p');
+            text.innerHTML += `${item.name} x${item.stack}`
+            container.appendChild(text);
+
+            const list     = document.createElement('button');
+            list.innerHTML = "List Item";
+            list.data      = item;
+            list.onclick   = b => window.location.href = `listitem.html?item=${encodeURIComponent(JSON.stringify(b.srcElement.data))}`;
+
+            container.appendChild(list);
+
+            return container;
+        }
+
+        const id = document.cookie.split('=')[1];
+        if (!id) {
+            alert("Please sign in as an actor first.");
+            window.location.href = "/signin.html"
+        }
+
+        const query = `query { getActor(id:"${id}"){id, name, inventory{name, desc, stack}} }`
+        sendQuery(query).then(resp => {
+            document.querySelector('#name').innerHTML = resp.getActor.name;
+
+            const invContainer = document.querySelector('#inventory');
+            for (let item of resp.getActor.inventory) {
+                invContainer.appendChild(createItemElement(item));
+            }
+        });
+    </script>
+
+    <div id="output">
+        <b>Name:</b>
+        <p id="name">Actor Name</p><br>
+
+        <b>Inventory:</b>
+        <div id="inventory"></div>
+    </div>
+</body>

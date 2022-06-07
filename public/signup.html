@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="js/formBuilder.js"></script>
+</head>
+
+<body>
+    <h1>Sign Up</h1>
+    <a href="signin.html">Sign In</a>
+
+    <script>
+        getSchema('Actor').then(schema => {
+            const container = buildForm(
+                schema.__type.fields,
+                form => {
+                    const id = form.querySelector('#id').value;
+                    const name = form.querySelector('#name').value;
+
+                    const query = `mutation { insertActor(actor: {id: "${id}", name: "${name}", inventory: []}){id,name,inventory{name}} }`;
+
+                    sendQuery(query).then(window.location.href = "/signin.html");
+                }
+            );
+
+            document.body.appendChild(container);
+        });
+    </script>
+</body>

@@ -103,6 +103,29 @@ const builders = {
 
         return container;
     },
+
+    'ID': (fieldName, defaultValue=null) => {
+        const container = document.createElement('div');
+
+        const label     = document.createElement('label');
+        label.for       = fieldName;
+        label.innerHTML = fieldName;
+
+
+        const input = document.createElement('input');
+        input.id    = fieldName;
+        input.name  = fieldName;
+        input.type  = 'string';
+
+        input.value = fieldName;
+        if (defaultValue)
+            input.value = defaultValue;
+
+        container.appendChild(label);
+        container.appendChild(input);
+
+        return container;
+    },
 }
 
 const buildForm = (fields, onsubmit) => {
@@ -113,10 +136,8 @@ const buildForm = (fields, onsubmit) => {
         const name = field.name;
         const type = field.type.name;
     
-        if (type == 'ID')
-            continue;
         if (!builders[type])
-            container.appendChild(builders['String'](`${type}ID`));
+            continue
         else
             container.appendChild(builders[type](name));
     }

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+
+<head>
+<script src="../js/formBuilder.js"></script>
+</head>
+
+<body>
+    <script>
+        const url = new URL(window.location.href);
+        const item = JSON.parse(url.searchParams.get('item'));
+
+        console.log(item);
+    </script>
+</body>
