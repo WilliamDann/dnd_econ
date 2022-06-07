@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const db = { actors: {}, markets: [] };
+const db = { actors: {}, markets: {} };
 
 const market_func_defs = require('../src/market');
 const market_funcs     = market_func_defs(db);

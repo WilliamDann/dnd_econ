@@ -3,8 +3,8 @@ const { buildSchema } = require('graphql');
 module.exports = buildSchema(`
 type Actor {
     id: ID
-    name      : String!
-    inventory : [Item]!
+    name      : String
+    inventory : [Item]
 }
 
 type Item {
@@ -30,8 +30,9 @@ type Listing {
 }
 
 input ActorInput {
-    name: String!
-    inventory: [ItemInput]!
+    id        : String
+    name      : String!
+    inventory : [ItemInput]!
 }
 
 input ItemInput {

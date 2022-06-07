@@ -4,10 +4,10 @@ const db = { actors: {}, markets: {}, listings: {} };
 
 const listing_func_defs  = require('../src/listing');
 const listing_funcs      = listing_func_defs(db);
-const market_func_defs = require('../src/market');
-const market_funcs     = market_func_defs(db);
-const actor_func_defs  = require('../src/actor');
-const actor_funcs      = actor_func_defs(db);
+const market_func_defs   = require('../src/market');
+const market_funcs       = market_func_defs(db);
+const actor_func_defs    = require('../src/actor');
+const actor_funcs        = actor_func_defs(db);
 
 describe('Listing', () => {
     describe('insertListing', () => {

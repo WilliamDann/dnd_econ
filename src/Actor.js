@@ -2,10 +2,10 @@ const crypto = require('crypto');
 
 module.exports = data => { return {
     insertActor: ({actor}) => {
-        const id = crypto.randomBytes(20).toString('hex');
-        actor.id = id;
+        if (!actor.id)
+            actor.id = crypto.randomBytes(20).toString('hex');
 
-        data.actors[id] = actor;
+        data.actors[actor.id] = actor;
 
         return actor;
     },
