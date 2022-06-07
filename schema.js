@@ -68,5 +68,7 @@ type Query {
     getActor(id: ID)   : Actor
     getMarket(id: ID)  : Market
     getListing(id: ID) : Listing
+    
+    getMarkets: [Market]
 }
 `);

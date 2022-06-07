@@ -14,4 +14,8 @@ module.exports = data => { return {
     getMarket: ({id}) => {
         return data.markets[id];
     },
+
+    getMarkets: ({}) => {
+        return Object.values(data.markets);
+    }
 }}

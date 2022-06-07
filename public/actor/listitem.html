@@ -5,10 +5,100 @@
 </head>
 
 <body>
+    <h1>List Item</h1>
+    <a href="index.html">Back</a>
+    <br><br>
+
     <script>
-        const url = new URL(window.location.href);
+        const id = document.cookie.split('=')[1];
+        const url  = new URL(window.location.href);
         const item = JSON.parse(url.searchParams.get('item'));
 
         console.log(item);
+
+        getSchema('Listing').then(schema => {
+            console.log(schema)
+            const form = buildForm(
+                schema.__type.fields,
+                form => {
+                    const give = {
+                        name: form.querySelector('#give #name').value,
+                        desc: form.querySelector('#give #desc').value,
+                        stack: form.querySelector('#give #stack').value
+                    }
+
+                    const take = {
+                        name: form.querySelector('#take #name').value,
+                        desc: form.querySelector('#take #desc').value,
+                        stack: form.querySelector('#take #stack').value
+                    }
+
+                    const lister_id = form.querySelector('#lister_id').value
+                    const market_id = form.querySelector('#market_id').value
+
+                    const query = `
+                    mutation {
+                        insertListing(listing:{
+                            give:{name:"${give.name}",desc:"${give.desc}",stack:${give.stack}},
+                            take:{name:"${take.name}",desc:"${take.desc}",stack:${take.stack}},
+                            lister_id:"${lister_id}",
+                            market_id:"${market_id}"
+                        }){id, give{name, stack}, take{name, stack}}
+                    }
+                    `;
+
+                    sendQuery(query).then(console.log)
+                }
+            );
+
+            console.log(form)
+
+            const submit_button = form.querySelector('#submit');
+            submit_button.parentElement.removeChild(submit_button);
+
+            const id_field = form.querySelector('#id').parentElement;
+            id_field.parentElement.removeChild(id_field);
+
+            const lister_id_field = form.querySelector('#lister_id');
+            lister_id_field.value = id;
+
+            const item_fields = [
+                {name:"name", type:{name:"String"}},
+                {name:"desc", type:{name:"String"}},
+                {name:"stack", type:{name:"Int"}},
+            ]
+            
+            const giveContainer = document.createElement('div');
+            giveContainer.id = "give";
+            const giveLab = document.createElement('b');
+            giveLab.innerHTML = "Give:"
+            giveContainer.appendChild(giveLab);
+
+            const giveForm = buildForm(item_fields, () => {});
+            giveForm.querySelector('#name').value = item.name;
+            giveForm.querySelector('#desc').value = item.desc;
+            giveForm.querySelector('#stack').value = item.stack;
+            giveForm.querySelector('#submit').parentElement.removeChild(giveForm.querySelector("#submit"))
+            giveContainer.appendChild(giveForm);
+            form.appendChild(giveContainer);
+
+            const takeContainer = document.createElement('div');
+            takeContainer.id = "take";
+            const takeLab = document.createElement('b');
+            takeLab.innerHTML = "Take:"
+            takeContainer.appendChild(takeLab);
+
+            const takeForm = buildForm(item_fields, () => {});
+            takeForm.querySelector('#submit').parentElement.removeChild(takeForm.querySelector("#submit"))
+            takeContainer.appendChild(takeForm)
+
+            form.appendChild(document.createElement('br'))
+            form.appendChild(giveContainer);
+            form.appendChild(document.createElement('br'))
+            form.appendChild(takeContainer);
+            form.appendChild(document.createElement('br'))
+            form.appendChild(submit_button);
+            document.body.appendChild(form);
+        })
     </script>
 </body>

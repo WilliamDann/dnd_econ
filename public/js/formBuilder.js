@@ -144,6 +144,7 @@ const buildForm = (fields, onsubmit) => {
 
     const submit   = document.createElement('input')
     submit.type    = 'submit';
+    submit.id      = 'submit';
     submit.onclick = () => onsubmit(container);
     container.appendChild(submit);
 
