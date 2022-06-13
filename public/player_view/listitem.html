@@ -10,7 +10,7 @@
     <br><br>
 
     <script>
-        const id = document.cookie.split('=')[1];
+        const id   = document.cookie.split('=')[1];
         const url  = new URL(window.location.href);
         const item = JSON.parse(url.searchParams.get('item'));
 

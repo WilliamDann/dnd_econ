@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<style>
+    p{ display: inline; }
+</style>
+
+<head>
+    <script src="../js/formBuilder.js"></script>
+    <script src="../js/makeTable.js"></script>
+</head>
+
+<body>
+    <h1>Create Item</h1>
+    <a href="index.html">Back</a><br>
+
+    <script>
+        getSchema('Item').then(schema => {
+            const container = buildForm(
+                schema.__type.fields,
+                form => {
+                    const name = form.querySelector('#name').value;
+                    const desc = form.querySelector('#desc').value;
+                    const stack = form.querySelector('#stack').value;
+
+                    const query = `mutation { insertItemTemplate(item: {name: "${name}", desc: "${desc}"}){name, desc} }`;
+
+                    sendQuery(query).then(console.log);
+                }
+            );
+
+            document.body.appendChild(container);
+        });
+
+    </script>
+</body>
