@@ -16,7 +16,7 @@
             const query = `query { getActor(id:"${id}"){id, name, inventory{name, desc, stack}} }`
 
             sendQuery(query).then(resp => {
-                document.cookie = `id=${resp.getActor.id}`
+                document.cookie = `id=${resp.getActor.id};path=/`
                 window.location.href = "index.html";
             })
         })

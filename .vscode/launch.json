@@ -11,13 +11,10 @@
             "type": "node-terminal"
         },
         {
-            "type": "pwa-node",
+            "command": "npm start",
+            "name": "Run npm start",
             "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}\\index.js"
+            "type": "node-terminal"
         }
     ]
 }

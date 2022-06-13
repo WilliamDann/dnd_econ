@@ -35,7 +35,7 @@
             return container;
         }
 
-        const id = document.cookie.split('=')[1];
+        const id = document.cookie.split('=')[1].split(';')[0];
         console.log(id);
         if (!id) {
             alert("Please sign in as an actor first.");

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<style>
+    p{ display: inline; }
+</style>
+
+<head>
+    <script src="../js/formBuilder.js"></script>
+    <script src="../js/makeTable.js"></script>
+</head>
+
+<body>
+    <h1>Give Item</h1>
+    <a href="index.html">Back</a><br>
+
+    <p>Selected:</p>
+    <p id="selected">None</p>
+    <button onclick="clearActor()">Clear</button>
+
+    <br><br>
+
+    <b>Actors</b>
+    <div id="users"></div>
+
+    <br><br>
+
+    <b>Item Templates</b>
+    <div id="itemps"></div>
+
+    <script>
+        function selectActor(actor) {
+            document.selectedActor = actor;
+            document.querySelector('#selected').innerHTML = actor.name;
+        }
+
+        function clearActor() {
+            document.selectedActor = null;
+            document.querySelector('#selected').innerHTML = "None";
+        }
+
+        function giveItem(item) {
+            const query = `mutation { giveItem(actor_id:"${document.selectedActor.id}", item:{name:"${item.name}", desc:"${item.desc}", stack:${parseInt(prompt("How many to give?"))}}){name, stack} }`
+        
+            sendQuery(query).then(console.log)
+        }
+
+        function makeActorsTable(resp) {
+            const elements = [];
+
+            for (let item of resp) {
+                const select = document.createElement('button');
+                select.innerHTML = "Select";
+                select.data = item;
+                select.onclick = (e) => selectActor(e.srcElement.data);
+
+                elements.push([item.name, item.id, select]);
+            }
+
+            document.body.querySelector('#users').appendChild(makeTable(elements));
+        }
+        
+        function makeItemTable(resp) {
+            const elements = [];
+
+            for (let item of resp) {
+                const select = document.createElement('button');
+                select.innerHTML = "Give";
+                select.data = item;
+                select.onclick = (e) => giveItem(e.srcElement.data);
+
+                elements.push([item.name, item.desc, select]);
+            }
+
+            document.body.querySelector('#itemps').appendChild(makeTable(elements));
+        }
+
+        sendQuery(`query { getActors{ id, name } }`).then(resp => makeActorsTable(resp.getActors))
+        sendQuery(`query { getItemTemplates{ name, desc } }`).then(resp => makeItemTable(resp.getItemTemplates))
+    </script>
+</body>

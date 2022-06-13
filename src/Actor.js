@@ -14,6 +14,10 @@ module.exports = data => { return {
         return data.actors[id];
     },
 
+    getActors: () => {
+        return Object.values(data.actors)
+    },
+
     giveItem: ({actor_id, item}) => {
         const actor = data.actors[actor_id];
         if (item.stack < 0)

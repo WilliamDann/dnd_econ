@@ -75,6 +75,7 @@ type Query {
     getMarket(id: ID)  : Market
     getListing(id: ID) : Listing
     
+    getActors: [Actor]
     getMarkets: [Market]
     getListings: [Listing]
 
