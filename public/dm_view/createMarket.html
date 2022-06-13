@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<style>
+    p{ display: inline; }
+</style>
+
+<head>
+    <script src="../js/formBuilder.js"></script>
+    <script src="../js/makeTable.js"></script>
+</head>
+
+<body>
+    <h1>Create Market</h1>
+    <a href="index.html">Back</a><br>
+
+    <p id="output"></p>
+
+    <script>
+        getSchema('Market').then(schema => {
+            const container = buildForm(
+                schema.__type.fields,
+                form => {
+                    const name = form.querySelector('#name').value;
+
+                    const query = `mutation { insertMarket(market: {name: "${name}"}){id, name} }`;
+
+                    sendQuery(query).then(resp => {
+                        const elem = document.createElement('p');
+                        elem.innerHTML = `${resp.insertMarket.name}: ${resp.insertMarket.id}<br>`;
+                        document.body.appendChild(elem); 
+                    });
+                }
+            );
+            container.querySelector('#id').parentElement.parentElement.removeChild(container.querySelector('#id').parentElement);
+            document.body.appendChild(container);
+        });
+    </script>
+</body>

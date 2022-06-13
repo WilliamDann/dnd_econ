@@ -15,7 +15,7 @@ type Item {
 
 type Market {
     id       : ID
-    name     : String!
+    name     : String
 }
 
 type Listing {
